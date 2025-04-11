@@ -69,7 +69,7 @@ class ShiftPenyiaranController extends Controller
             'hari' => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu',
             'jam_mulai' => 'required|date_format:H:i',
             'jam_selesai' => 'required|date_format:H:i|after_or_equal:jam_mulai',
-            'naskah_siaran' => 'required|string', // Tambah validasi untuk isi berita
+            'naskah_siaran' => 'required|string', 
         ]);
 
         // Update data

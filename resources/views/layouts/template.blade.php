@@ -140,6 +140,7 @@
             }
         }
     </style>
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
 </head>
 
 <body>
@@ -150,6 +151,7 @@
             <li><a href="/shift_penyiaran">Rekap Shift</a></li>
             <li><a href="/data_siaran">Data Siaran</a></li>
             <li><a href="/programs">Info Pro2</a></li>
+            <li><a href="/jadwal-siaran">Jadwal Siaran</a></li>
             <li>
 
                 <form method="POST" action="{{ route('logout') }}">
@@ -180,6 +182,7 @@
     <script
         type="text/javascript"
         src="../node_modules/tw-elements/dist/js/tw-elements.umd.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\ShiftPenyiaranController;
 use App\Http\Controllers\DataSiaran;
+use App\Http\Controllers\JadwalSiaranController;
 use App\Http\Controllers\PenyiarController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\ProfileController;
@@ -19,6 +20,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    return view('frontend.index');
+})->name('landing.page');
+
+Route::get('/datasiaran', function () {
+    return view('frontend.jadwal-siaran');
+})->name('jadwal-siaran.landing');
+
+Route::get('/loginn', function () {
     return view('welcome');
 });
 
@@ -72,6 +81,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/data-siaran/update/{id}', [DataSiaran::class, 'update'])->name('data_siaran.update');
     Route::delete('/data-siaran/delete/{id}', [DataSiaran::class, 'destroy'])->name('data_siaran.destroy');
     Route::resource('data_siaran', DataSiaran::class);
+
+
+    //jadwal siaran
+    Route::get('/jadwal-siaran',[JadwalSiaranController::class, 'index'])->name('jadwal-siaran.index');
+    Route::post('/jadwal-siaran/store',[JadwalSiaranController::class, 'store'])->name('jadwal-siaran.store');
+
 
     //Info Pro2
     Route::get('/programs', [ProgramController::class, 'index'])->name('programs.index');
