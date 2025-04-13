@@ -1,10 +1,14 @@
 <?php
+
+use App\Http\Controllers\Dashboard;
 use App\Http\Controllers\ShiftPenyiaranController;
 use App\Http\Controllers\DataSiaran;
 use App\Http\Controllers\JadwalSiaranController;
+use App\Http\Controllers\LandingController;
 use App\Http\Controllers\PenyiarController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\WeeklyController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -19,21 +23,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('frontend.index');
-})->name('landing.page');
+Route::get('/', [LandingController::class, 'index'])->name('landing.page');
 
-Route::get('/datasiaran', function () {
-    return view('frontend.jadwal-siaran');
-})->name('jadwal-siaran.landing');
+Route::get('/datasiaran', [LandingController::class, 'jadwal_siaran'])->name('jadwal-siaran.landing');
 
 Route::get('/loginn', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('layouts.template');
+Route::get('/dashboard', [Dashboard::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 
 
@@ -56,7 +54,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/penyiar/{penyiar}', [PenyiarController::class, 'destroy'])->name('penyiar.destroy');
 
     //shift siaran
-    Route::get('/shift_penyiaran', [ShiftPenyiaranController::class, 'index'])->name('shift_penyiaran');
+    Route::get('/shift_penyiaran', [ShiftPenyiaranController::class, 'index'])->name('shift_penyiaran.index');
     Route::get('tambah',[ShiftPenyiaranController::class,'create'])->name('shift_penyiaran.create');
     Route::post('tambah', [ShiftPenyiaranController::class, 'store'])->name('shift_penyiaran.store');
     Route::get('shift_penyiaran/{id}/edit', [ShiftPenyiaranController::class, 'edit'])->name('shift_penyiaran.edit');
@@ -86,7 +84,13 @@ Route::middleware('auth')->group(function () {
     //jadwal siaran
     Route::get('/jadwal-siaran',[JadwalSiaranController::class, 'index'])->name('jadwal-siaran.index');
     Route::post('/jadwal-siaran/store',[JadwalSiaranController::class, 'store'])->name('jadwal-siaran.store');
-
+    Route::put('jadwal-siaran/update/{id}', [JadwalSiaranController::class, 'update'])->name('jadwal-siaran.update');
+    Route::delete('/jadwal-siaran/delete/{id}', [JadwalSiaranController::class, 'destroy'])->name('jadwal-siaran.destroy');
+    // weekly
+    Route::get('/weekly', [WeeklyController::class, 'index'])->name('weekly.index');
+    Route::post('/weekly/store', [WeeklyController::class, 'store'])->name('weekly.store');
+    Route::put('/weekly/update/{id}', [WeeklyController::class, 'update'])->name('weekly.update');
+    Route::delete('/weekly/delete/{id}', [WeeklyController::class, 'destroy'])->name('weekly.destroy');
 
     //Info Pro2
     Route::get('/programs', [ProgramController::class, 'index'])->name('programs.index');

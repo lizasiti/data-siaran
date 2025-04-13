@@ -6,441 +6,353 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Radio Republik Indonesia - Portal Siaran</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #d50000;
-            --secondary-color: #b71c1c;
-            --accent-color: #f44336;
-            --dark-color: #263238;
-            --light-color: #f5f5f5;
-            --white: #ffffff;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--light-color);
-        }
-
-        header {
-            background-color: var(--white);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: fixed;
-            width: 100%;
-            z-index: 100;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 15px;
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-        }
-
-        .logo img {
-            height: 50px;
-            margin-right: 10px;
-        }
-
-        .logo-text {
-            font-weight: bold;
-            font-size: 1.2rem;
-            color: var(--dark-color);
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-        }
-
-        .nav-links li {
-            margin-left: 25px;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--dark-color);
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary-color);
-        }
-
-        .auth-buttons .btn {
-            padding: 8px 20px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
-
-        .btn-outline {
-            border: 1px solid var(--primary-color);
-            color: var(--primary-color);
-            margin-right: 10px;
-        }
-
-        .btn-outline:hover {
-            background-color: var(--primary-color);
-            color: var(--white);
-        }
-
-        .btn-primary {
-            background-color: var(--primary-color);
-            color: var(--white);
-            border: 1px solid var(--primary-color);
-        }
-
-        .btn-primary:hover {
-            background-color: var(--secondary-color);
-            border-color: var(--secondary-color);
-        }
-
-        .hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-                url('/api/placeholder/1200/600') no-repeat center center/cover;
-            height: 80vh;
-            display: flex;
-            align-items: center;
-            color: var(--white);
-            padding-top: 80px;
-        }
-
-        .hero-content {
-            max-width: 650px;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
-
-        .hero-buttons .btn {
-            padding: 12px 30px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-            display: inline-block;
-            margin-right: 15px;
-            margin-bottom: 15px;
-        }
-
-        .featured-programs {
-            padding: 80px 0;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .section-header h2 {
-            font-size: 2.2rem;
-            color: var(--dark-color);
-            margin-bottom: 20px;
-        }
-
-        .section-header p {
-            color: #666;
-            max-width: 700px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-
-        .program-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-        }
-
-        .program-card {
-            background-color: var(--white);
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
-        }
-
-        .program-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .program-img {
-            height: 180px;
-            background-color: #ddd;
-            position: relative;
-        }
-
-        .program-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background-color: var(--primary-color);
-            color: var(--white);
-            padding: 5px 10px;
-            border-radius: 3px;
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-
-        .program-content {
-            padding: 20px;
-        }
-
-        .program-content h3 {
-            margin-bottom: 10px;
-            font-size: 1.2rem;
-            color: var(--dark-color);
-        }
-
-        .program-content p {
-            color: #666;
-            margin-bottom: 15px;
-            line-height: 1.5;
-            font-size: 0.9rem;
-        }
-
-        .program-meta {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.85rem;
-            color: #888;
-        }
-
-        .program-meta span {
-            display: flex;
-            align-items: center;
-        }
-
-        .program-meta i {
-            margin-right: 5px;
-        }
-
-        .cta-section {
-            background-color: var(--primary-color);
-            color: var(--white);
-            padding: 80px 0;
-            text-align: center;
-        }
-
-        .cta-content {
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .cta-content h2 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-        }
-
-        .cta-content p {
-            margin-bottom: 30px;
-            font-size: 1.1rem;
-            line-height: 1.6;
-        }
-
-        .btn-white {
-            background-color: var(--white);
-            color: var(--primary-color);
-            padding: 12px 30px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-            display: inline-block;
-        }
-
-        .btn-white:hover {
-            background-color: rgba(255, 255, 255, 0.9);
-            transform: translateY(-3px);
-        }
-
-        footer {
-            background-color: var(--dark-color);
-            color: #ccc;
-            padding: 60px 0 30px;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-
-        .footer-column h3 {
-            color: var(--white);
-            margin-bottom: 20px;
-            font-size: 1.2rem;
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 10px;
-        }
-
-        .footer-links a {
-            color: #ccc;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-links a:hover {
-            color: var(--white);
-        }
-
-        .social-links {
-            display: flex;
-            margin-top: 15px;
-        }
-
-        .social-links a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-            background-color: rgba(255, 255, 255, 0.1);
-            color: var(--white);
-            border-radius: 50%;
-            margin-right: 10px;
-            transition: background-color 0.3s;
-        }
-
-        .social-links a:hover {
-            background-color: var(--primary-color);
-        }
-
-        .footer-bottom {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 20px;
-            text-align: center;
-            font-size: 0.9rem;
-        }
-
-        @media (max-width: 992px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-
-            .hero {
-                height: 70vh;
-            }
-
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .hero p {
-                font-size: 1rem;
-            }
-
-            .hero-buttons .btn {
-                padding: 10px 20px;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .logo-text {
-                display: none;
-            }
-
-            .featured-programs {
-                padding: 50px 0;
-            }
-
-            .section-header h2 {
-                font-size: 1.8rem;
-            }
-        }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('css/landing.css') }}">
 </head>
 
 <body>
-    <header>
-        <div class="container">
-            <nav class="navbar">
-                <div class="logo">
-                    <img src="img/rpro2.jpg" alt="Logo RRI">
+    <!-- Modern Header with Responsive Design -->
+    <header class="shadow-sm sticky-top bg-white">
+        <div class="container py-2">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <a href="{{ route('landing.page') }}" class="navbar-brand d-flex align-items-center">
+                    <img src="img/rpro2.jpg" alt="Logo RRI" class="me-2 rounded-circle" width="50" height="50">
                     <div class="logo-text">
-                        <div>Radio Republik Indonesia</div>
-                        <div style="font-size: 0.8rem; color: #777;">Sekali di Udara, Tetap di Udara</div>
+                        <div class="fw-bold text-primary">Radio Republik Indonesia</div>
+                        <div class="small text-muted fst-italic">Sekali di Udara, Tetap di Udara</div>
                     </div>
-                </div>
+                </a>
 
-                <ul class="nav-links">
-                    <li><a href="{{ route('landing.page') }}">Beranda</a></li>
-                    <li><a href="{{ route('jadwal-siaran.landing') }}">Jadwal Siaran</a></li>
-                </ul>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                    aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-                <div class="auth-buttons">
-                    <a href="/loginn" class="btn btn-outline">Masuk</a>
-                    <a href="register" class="btn btn-primary">Daftar</a>
+                <div class="collapse navbar-collapse" id="navbarContent">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item mx-2">
+                            <a href="{{ route('landing.page') }}" class="nav-link fw-medium position-relative">
+                                <i class="fas fa-home me-1"></i> Beranda
+                                <span class="position-absolute bottom-0 start-50 translate-middle-x bg-primary"
+                                    style="height: 2px; width: 0%; transition: width 0.3s; opacity: 0;"></span>
+                            </a>
+                        </li>
+                        <li class="nav-item mx-2">
+                            <a href="{{ route('jadwal-siaran.landing') }}" class="nav-link fw-medium position-relative">
+                                <i class="fas fa-calendar-alt me-1"></i> Jadwal Siaran
+                                <span class="position-absolute bottom-0 start-50 translate-middle-x bg-primary"
+                                    style="height: 2px; width: 0%; transition: width 0.3s; opacity: 0;"></span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div class="auth-buttons d-flex gap-2">
+                        <a href="/loginn" class="btn btn-outline-primary btn-sm px-3 rounded-pill">
+                            <i class="fas fa-sign-in-alt me-1"></i> Masuk
+                        </a>
+                        <a href="register" class="btn btn-primary btn-sm px-3 rounded-pill">
+                            <i class="fas fa-user-plus me-1"></i> Daftar
+                        </a>
+                    </div>
                 </div>
             </nav>
         </div>
     </header>
-<section class="mt-3">
 
-    <h1 class="mt-3">Jadwal Siaran Page</h1>
+    <!-- Schedule Hero Section -->
+    <!-- Hero Banner -->
+    <section class="bg-light shadow-sm py-4 mb-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-5 fw-bold text-primary mb-3">Jadwal Siaran RRI</h1>
+                    <p class="lead text-muted">Temukan program siaran terbaik dari Radio Republik Indonesia yang
+                        menginformasi, mengedukasi, dan menghibur seluruh masyarakat Indonesia.</p>
+                        <div class="d-flex align-items-center">
+                            @if($langsung)
+                                <div class="on-air-badge d-flex align-items-center pe-3">
+                                    <span class="pulse-dot me-2"></span>
+                                    <span class="fw-bold text-danger">ON AIR</span>
+                                </div>
+                                <div class="vr mx-3 opacity-25" style="height: 24px"></div>
+                                <div class="live-now">
+                                    <span class="small text-muted">Sedang Tayang:</span>
+                                    <span class="ms-2 fw-medium text-primary">{{$langsung->judul}}</span>
+                                </div>
+                            @else
+                                <div class="live-now">
+                                    <span class="small text-muted">Tidak ada program yang sedang tayang</span>
+                                </div>
+                            @endif
+                        </div>
+                </div>
+                
+                <div class="col-lg-6 text-end d-none d-lg-block ">
+                    <img src="{{asset('img/banner.png')}}" alt="RRI Hero Image" class="img-fluid rounded-3  w-50">
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <h1 class="p-10">Jadwal Siaran Page</h1>
+    <!-- Schedule Navigation -->
+    <section class="schedule-navigation mb-5">
+        <div class="container">
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                <div class="card-body p-0 shadow-lg">
+                    <ul class="nav nav-pills nav-fill schedule-tabs" id="scheduleTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active py-3 rounded-0 position-relative" id="weekday-tab"
+                                data-bs-toggle="pill" data-bs-target="#weekday" type="button" role="tab"
+                                aria-controls="weekday" aria-selected="true">
+                                <div class="text-center px-3">
+                                    <div class="d-block fw-medium">Setiap Hari</div>
+                                    <small class="d-block fw-medium ">Senin-Jumat</small>
+                                </div>
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link py-3 rounded-0 position-relative" id="weekend-tab"
+                                data-bs-toggle="pill" data-bs-target="#weekend" type="button" role="tab"
+                                aria-controls="weekend" aria-selected="false">
+                                <div class="text-center px-3">
+                                    <div class="d-block fw-medium">Akhir Pekan</div>
+                                    <small class="d-block fw-medium ">Sabtu-Minggu</small>
+                                </div>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <h1 class="p-10">Jadwal Siaran Page</h1>
+    <!-- Schedule Content -->
+    <section class="schedule-content mb-5">
+        <div class="container">
+            <div class="tab-content" id="scheduleTabContent">
+                <!-- Weekday Schedule -->
+                <div class="tab-pane fade show active" id="weekday" role="tabpanel" aria-labelledby="weekday-tab">
+                    <div class="d-flex align-items-center mb-4">
+                        <h3 class="mb-0 fw-bold">Jadwal Siaran</h3>
+                        <div class="ms-auto">
+                            <div class="input-group">
+                               
+                            </div>
+                        </div>
+                    </div>
 
-    <h1 class="p-10">Jadwal Siaran Page</h1>
+                    <div class="schedule-timeline">
+                        <!-- Morning Programs -->
+                        <div class="schedule-section mb-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <span class="badge bg-warning rounded-pill px-3 py-2 me-2">
+                                    <i class="fas fa-sun me-1"></i> Pagi
+                                </span>
+                                <div class="border-bottom flex-grow-1 ms-2"></div>
+                            </div>
 
-    <h1 class="p-10">Jadwal Siaran Page</h1>
+                            <div class="row g-4">
+                                @foreach($morning as $program)
+                                <div class="col-lg-4 col-md-6">
+                                    <div
+                                        class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden hover-scale transition">
+                                        <div class="position-relative">
+                                            <div class="card-img-top ratio ratio-16x9">
+                                                <div
+                                                    style="background: {{$program->gambar ? 'url(' . asset('storage/' . $program->gambar) . ')' : '/api/placeholder/300/180'}} no-repeat center/cover;">
+                                                </div>
+                                            </div>
+                                            <div class="position-absolute top-0 end-0 m-3">
+                                                <span class="badge bg-warning rounded-pill px-3 py-2">{{$program->jam_mulai}} -
+                                                    {{$program->jam_selesai}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="card-body p-4">
+                                        <h3 class="card-title fw-bold h5 mb-3">{{$program->judul}}</h3>
+                                            <p class="card-text text-muted">{{$program->deskripsi}}</p>
+                                        </div>
+                                        <div class="card-footer bg-white border-top-0 px-4 pb-4">
+                                            <div class="d-flex justify-content-between text-muted small">
+                                                
+                                                <span class="d-flex align-items-center">
+                                                    <i class="fas fa-broadcast-tower me-2 text-warning"></i>
+                                                    Pro RRI2
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
 
-    <h1 class="p-10">Jadwal Siaran Page</h1>
+                        <!-- Afternoon Programs -->
+                        <div class="schedule-section mb-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <span class="badge bg-primary rounded-pill px-3 py-2 me-2">
+                                    <i class="fas fa-cloud-sun me-1"></i> Siang
+                                </span>
+                                <div class="border-bottom flex-grow-1 ms-2"></div>
+                            </div>
 
-    <h1 class="p-10">Jadwal Siaran Page</h1>
+                            <div class="row g-4">
+                                @foreach($afternoon as $program)
+                                <div class="col-lg-4 col-md-6">
+                                    <div
+                                        class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden hover-scale transition">
+                                        <div class="position-relative">
+                                            <div class="card-img-top ratio ratio-16x9">
+                                                <div
+                                                    style="background: {{$program->gambar ? 'url(' . asset('storage/' . $program->gambar) . ')' : '/api/placeholder/300/180'}} no-repeat center/cover;">
+                                                </div>
+                                            </div>
+                                            <div class="position-absolute top-0 end-0 m-3">
+                                                <span class="badge bg-primary rounded-pill px-3 py-2">{{$program->jam_mulai}} - {{$program->jam_selesai}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="card-body p-4">
+                                            <h3 class="card-title fw-bold h5 mb-3">{{$program->judul}}</h3>
+                                            <p class="card-text text-muted">{{$program->deskripsi}}</p>
+                                        </div>
+                                        <div class="card-footer bg-white border-top-0 px-4 pb-4">
+                                            <div class="d-flex justify-content-between text-muted small">
+                                                <span class="d-flex align-items-center">
+                                                    <i class="fas fa-broadcast-tower me-2 text-primary"></i>
+                                                    Pro RRI2
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
 
-    <h1 class="p-10">Jadwal Siaran Page</h1>
-</section>
+                        <!-- Evening Programs -->
+                        <div class="schedule-section mb-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <span class="badge bg-danger rounded-pill px-3 py-2 me-2">
+                                    <i class="fas fa-moon me-1"></i> Malam
+                                </span>
+                                <div class="border-bottom flex-grow-1 ms-2"></div>
+                            </div>
+
+                            <div class="row g-4">
+                                @foreach($evening as $program)
+                                <div class="col-lg-4 col-md-6">
+                                    <div
+                                        class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden hover-scale transition">
+                                        <div class="position-relative">
+                                            <div class="card-img-top ratio ratio-16x9">
+                                                <div
+                                                    style="background: {{$program->gambar ? 'url(' . asset('storage/' . $program->gambar) . ')' : '/api/placeholder/300/180'}} no-repeat center/cover;">
+                                                </div>
+                                            </div>
+                                            <div class="position-absolute top-0 end-0 m-3">
+                                                <span class="badge bg-danger rounded-pill px-3 py-2">{{$program->jam_mulai}} - {{$program->jam_selesai}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="card-body p-4">
+                                            <h3 class="card-title fw-bold h5 mb-3">{{$program->judul}}</h3>
+                                        <p class="card-text text-muted">{{$program->deskripsi}}</p>
+                                        </div>
+                                        <div class="card-footer bg-white border-top-0 px-4 pb-4">
+                                            <div class="d-flex justify-content-between text-muted small">
+                                                <span class="d-flex align-items-center">
+                                                    <i class="fas fa-broadcast-tower me-2 text-danger"></i>
+                                                    Pro RRI2
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weekend Schedule -->
+                <div class="tab-pane fade" id="weekend" role="tabpanel" aria-labelledby="weekend-tab">
+                    <div class="d-flex align-items-center mb-4">
+                        <h3 class="mb-0 fw-bold">Jadwal Siaran Akhir Pekan (Sabtu-Minggu)</h3>
+                       
+                    </div>
+
+                    <div class="schedule-timeline">
+
+
+                        <!-- Afternoon Programs -->
+                        <div class="schedule-section mb-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <span class="badge bg-primary rounded-pill px-3 py-2 me-2">
+                                    <img width="20" height="20" class="me-1" src="{{asset('img/icons8-weekend-64.png')}}" alt=""/>Weekend
+                                    
+                                </span>
+                                <div class="border-bottom flex-grow-1 ms-2"></div>
+                            </div>
+
+                            <div class="row g-4">
+                            @foreach($week as $program)
+
+                                <div class="col-lg-4 col-md-6">
+                                    <div
+                                        class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden hover-scale transition">
+                                        <div class="position-relative">
+                                            <div class="card-img-top ratio ratio-16x9">
+                                                <div
+                                                    style="background: {{$program->gambar ? 'url(' . asset('storage/' . $program->gambar) . ')' : '/api/placeholder/300/180'}} no-repeat center/cover;">
+                                                </div>
+                                            </div>
+                                            <div class="position-absolute top-0 end-0 m-3">
+                                                <span class="badge bg-primary rounded-pill px-3 py-2">{{$program->jam_mulai}} - {{$program->jam_selesai}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="card-body p-4">
+                                            <h3 class="card-title fw-bold h5 mb-3">{{$program->judul}}</h3>
+                                            <p class="card-text text-muted">{{$program->deskripsi}}</p>
+                                        </div>
+                                        <div class="card-footer bg-white border-top-0 px-4 pb-4">
+                                            <div class="d-flex justify-content-between text-muted small">
+                                               
+                                                <span class="d-flex align-items-center">
+                                                    <i class="fas fa-broadcast-tower me-2 text-primary"></i>
+                                                    Pro RRI2
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // tab active
+        $(document).ready(function() {
+            $('.nav-tabs a').on('click', function(e) {
+                e.preventDefault();
+                $(this).tab('show');
+            });
+        });
+    </script>
 
     <footer>
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-column">
                     <h3>Radio Republik Indonesia</h3>
-                    <p>Stasiun radio tertua dan terluas di Indonesia yang menyiarkan program informatif, edukatif, dan menghibur.</p>
+                    <p>Stasiun radio tertua dan terluas di Indonesia yang menyiarkan program informatif, edukatif,
+                        dan
+                        menghibur.</p>
                     <div class="social-links">
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
                         <a href="#"><i class="fab fa-twitter"></i></a>
@@ -473,6 +385,8 @@
             </div>
         </div>
     </footer>
+    <script src="{{ asset('/js/script.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 
 </html>

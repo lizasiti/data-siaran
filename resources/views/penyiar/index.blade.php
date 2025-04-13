@@ -1,6 +1,7 @@
-@extends('layouts.template')
+@extends('layouts.admin')
 @section('content')
 
+<div class="container">
 <h1>Daftar Penyiar</h1>
 
 <!-- Tombol Tambah Penyiar -->
@@ -43,5 +44,6 @@
         border-radius: 70%;
     }
 </style>
+</div>
 
 @endsection

@@ -1,7 +1,8 @@
-@extends('layouts.template')
+@extends('layouts.admin')
 @section('content')
 
-<h1>Edit Penyiar</h1>
+<div class="container">
+    <h1>Edit Penyiar</h1>
 
 <form action="{{ route('penyiar.update', $penyiar->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
@@ -20,5 +21,6 @@
     </div>
     <button type="submit" class="btn btn-primary">Update Penyiar</button>
 </form>
+</div>
 
 @endsection

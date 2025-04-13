@@ -1,4 +1,4 @@
-@extends('layouts.template')
+@extends('layouts.admin')
 @section('content')
 
     <div class="banner">Selamat datang di RRI Pro 2 Sumenep 94.6 FM</div>
