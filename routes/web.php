@@ -70,6 +70,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/rekap_shift', [ShiftPenyiaranController::class, 'rekapShift'])->name('shift_penyiaran.rekap');
     Route::get('/shift/tambah', [ShiftPenyiaranController::class, 'create'])->name('shift_penyiaran.create');
 
+    Route::get('/shift_penyiaran/export_pdf', [ShiftPenyiaranController::class, 'exportPdf'])->name('shift_penyiaran.export_pdf');
+
     //data siaran
     Route::get('/data_siaran',[DataSiaran::class,'index'])->name('data_siaran');
     Route::post('tambah_siaran',[DataSiaran::class,'store'])->name('data_siaran.store');

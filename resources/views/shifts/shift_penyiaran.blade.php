@@ -30,14 +30,21 @@
                             <i class="bx bx-filter me-1"></i> Filter
                         </button>
                     </div>
-                    <div class="d-flex">
-                        <a href="{{ route('shift_penyiaran.rekap') }}" class="btn btn-info me-2">
-                            <i class="bx bxs-report me-1"></i> Lihat Rekap Shift
-                        </a>
-                        <a href="{{ route('shift_penyiaran.create') }}" class="btn btn-success">
-                            <i class="bx bx-plus me-1"></i> Tambah Shift
+                    <div class="me-3">
+                        <a href="{{ route('shift_penyiaran.export_pdf', request()->query()) }}" 
+                           class="btn btn-secondary">
+                           <i class="bx bx-download me-1"></i> Export PDF
                         </a>
                     </div>
+                    <div class="d-flex">
+                        <a href="{{ route('shift_penyiaran.rekap') }}" class="btn btn-info me-2">
+                            <i class="bx bxs-report me-1"></i> Lihat Rekap
+                        </a>
+                        <a href="{{ route('shift_penyiaran.create') }}" class="btn btn-success">
+                            <i class="bx bx-plus me-1"></i> Tambah
+                        </a>
+                    </div>
+    
                 </div>
             </form>
         </div>

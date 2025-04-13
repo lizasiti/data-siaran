@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ShiftPenyiaran;
+use PDF;
 
 class ShiftPenyiaranController extends Controller
 {
@@ -13,7 +14,11 @@ class ShiftPenyiaranController extends Controller
         $search = $request->input('search');
 
         $shifts = ShiftPenyiaran::when($search, function ($query, $search) {
-            return $query->where('nama_penyiar', 'like', "%{$search}%");
+            return $query->where('nama_penyiar', 'like', "%{$search}%")
+                         ->orWhere('hari', 'like', "%{$search}%")
+                         ->orWhere('jam_mulai', 'like', "%{$search}%")
+                         ->orWhere('jam_selesai', 'like', "%{$search}%")
+                         ->orWhere('naskah_siaran', 'like', "%{$search}%");
         })->get();
 
         return view('shifts.shift_penyiaran', compact('shifts'));
@@ -27,28 +32,28 @@ class ShiftPenyiaranController extends Controller
 
     // Menyimpan shift baru ke database
     public function store(Request $request)
-{
-    // Validasi input
-    $request->validate([
-        'nama_penyiar' => 'required|string|max:255',
-        'hari' => 'required|string|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu',
-        'jam_mulai' => 'required|',
-        'jam_selesai' => 'required|after:jam_mulai',
-        'naskah_siaran' => 'required|string|max:5000',
-    ]);
+    {
+        // Validasi input
+        $request->validate([
+            'nama_penyiar' => 'required|string|max:255',
+            'hari' => 'required|string|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu',
+            'jam_mulai' => 'required|',
+            'jam_selesai' => 'required|after:jam_mulai',
+            'naskah_siaran' => 'required|string|max:5000',
+        ]);
 
-    // Simpan ke database
-    ShiftPenyiaran::create([
-        'nama_penyiar' => $request->nama_penyiar,
-        'hari' => $request->hari,
-        'jam_mulai' => $request->jam_mulai,
-        'jam_selesai' => $request->jam_selesai,
-        'naskah_siaran' => $request->naskah_siaran, // Sesuai dengan database
-    ]);
+        // Simpan ke database
+        ShiftPenyiaran::create([
+            'nama_penyiar' => $request->nama_penyiar,
+            'hari' => $request->hari,
+            'jam_mulai' => $request->jam_mulai,
+            'jam_selesai' => $request->jam_selesai,
+            'naskah_siaran' => $request->naskah_siaran, // Sesuai dengan database
+        ]);
 
-    // Redirect dengan pesan sukses
-    return redirect()->route('shift_penyiaran.index')->with('success', 'Shift berhasil ditambahkan.');
-}
+        // Redirect dengan pesan sukses
+        return redirect()->route('shift_penyiaran.index')->with('success', 'Shift berhasil ditambahkan.');
+    }
 
 
     // Menampilkan form edit shift
@@ -69,7 +74,7 @@ class ShiftPenyiaranController extends Controller
             'hari' => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu',
             'jam_mulai' => 'required|date_format:H:i',
             'jam_selesai' => 'required|date_format:H:i|after_or_equal:jam_mulai',
-            'naskah_siaran' => 'required|string', 
+            'naskah_siaran' => 'required|string',
         ]);
 
         // Update data
@@ -103,15 +108,52 @@ class ShiftPenyiaranController extends Controller
 
     // Menampilkan rekap shift berdasarkan hari Senin-Minggu
     public function rekapShift(Request $request)
-{
-    $query = ShiftPenyiaran::orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu')");
+    {
+        $query = ShiftPenyiaran::orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu')");
 
-    if ($request->filled('hari')) {
-        $query->where('hari', $request->hari);
+        if ($request->filled('hari')) {
+            $query->where('hari', $request->hari);
+        }
+
+        $shifts = $query->get(); // ✅ Pastikan `get()` dipanggil agar menjadi koleksi
+
+        return view('shifts.rekap', compact('shifts'));
     }
 
-    $shifts = $query->get(); // ✅ Pastikan `get()` dipanggil agar menjadi koleksi
 
-    return view('shifts.rekap', compact('shifts'));
-}
+    // export pdf
+    public function exportPdf(Request $request)
+    {
+        // Ambil data dengan filter yang sama seperti di index
+        $shifts = ShiftPenyiaran::query();
+        
+        if ($request->has('search') && !empty($request->search)) {
+            $shifts->where(function($query) use ($request) {
+                $query->where('nama_penyiar', 'like', '%'.$request->search.'%')
+                      ->orWhere('hari', 'like', '%'.$request->search.'%')
+                      ->orWhere('naskah_siaran', 'like', '%'.$request->search.'%');
+            });
+        }
+        
+        if ($request->has('hari') && !empty($request->hari)) {
+            $shifts->where('hari', $request->hari);
+        }
+        
+        $shifts = $shifts->orderBy('hari')
+                        ->orderBy('jam_mulai')
+                        ->get();
+
+        $data = [
+            'title' => 'Laporan Shift Penyiaran',
+            'date' => date('d/m/Y'),
+            'shifts' => $shifts,
+            'filter' => [
+                'search' => $request->search,
+                'hari' => $request->hari
+            ]
+        ];
+
+        $pdf = PDF::loadView('shifts.export_pdf', $data);
+        return $pdf->download('shift_penyiaran_'.date('YmdHis').'.pdf');
+    }
 }
