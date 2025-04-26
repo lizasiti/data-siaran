@@ -17,7 +17,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
-    
+
     <!-- Form Card -->
     <div class="card shadow-sm mb-4" id="form-container" style="display: none;">
         <div class="card-header bg-primary text-white">
@@ -50,8 +50,13 @@
                     </div>
                     <div class="col-12">
                         <div class="mb-3">
-                            <label for="penyiar" class="form-label">Penyiar</label>
-                            <input type="text" class="form-control" id="penyiar" name="penyiar" required>
+                            <label for="penyiar_id" class="form-label">Penyiar</label>
+                            <select class="form-select" id="penyiar_id" name="penyiar_id" required>
+                                <option value="" disabled selected>Pilih Penyiar</option>
+                                @foreach ($penyiars as $penyiar)
+                                    <option value="{{ $penyiar->id }}">{{ $penyiar->nama }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="col-12">
@@ -74,7 +79,7 @@
             </form>
         </div>
     </div>
-    
+
     <!-- Data Table -->
     <div class="card shadow-sm">
         <div class="card-body">
@@ -105,7 +110,7 @@
                             <td>{{ \Carbon\Carbon::parse($data->tanggal)->format('d/m/Y') }}</td>
                             <td>
                                 <div class="d-flex align-items-center">
-                                    <div>{{ $data->penyiar }}</div>
+                                    <div>{{ $data->penyiar->nama }}</div>
                                 </div>
                             </td>
                             <td class="interaksi-column" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ $data->interaksi_pendengar }}">
@@ -113,7 +118,7 @@
                             </td>
                             <td>
                                 <div class="d-flex gap-2">
-                                    <button class="btn btn-sm btn-icon btn-warning" 
+                                    <button class="btn btn-sm btn-icon btn-warning"
                                             onclick="editSiaran('{{ $data->id }}')"
                                             data-bs-toggle="tooltip" title="Edit">
                                         <i class="bx bx-edit"></i>
@@ -155,16 +160,16 @@
         justify-content: center;
         vertical-align: middle;
     }
-    
+
     .symbol-circle {
         border-radius: 50%;
     }
-    
+
     .symbol-40 {
         width: 40px;
         height: 40px;
     }
-    
+
     .symbol-label {
         display: flex;
         align-items: center;
@@ -176,39 +181,39 @@
         background-position: center center;
         background-size: cover;
     }
-    
+
     .interaksi-column {
         max-width: 200px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
-    
+
     .table-hover tbody tr:hover {
         background-color: #f8f9fa;
     }
-    
+
     .card {
         border-radius: 0.5rem;
     }
-    
+
     .badge {
         font-size: 0.85em;
         padding: 0.35em 0.65em;
     }
-    
+
     .badge-bg-SPADA {
         background-color: #4e73df;
     }
-    
+
     .badge-bg-SANTAI_SIANG {
         background-color: #1cc88a;
     }
-    
+
     .badge-bg-SORE_CERIA {
         background-color: #f6c23e;
     }
-    
+
     .badge-bg-JAGA_MALAM {
         background-color: #e74a3b;
     }
@@ -240,9 +245,9 @@
                 document.getElementById("siaran-id").value = data.id;
                 document.getElementById("daypart").value = data.daypart;
                 document.getElementById("tanggal").value = data.tanggal;
-                document.getElementById("penyiar").value = data.penyiar;
+                document.getElementById("penyiar_id").value = data.penyiar_id;
                 document.getElementById("interaksi_pendengar").value = data.interaksi_pendengar;
-                
+
                 // Show form and scroll to it
                 document.getElementById("form-container").style.display = "block";
                 document.getElementById("form-container").scrollIntoView({ behavior: 'smooth' });

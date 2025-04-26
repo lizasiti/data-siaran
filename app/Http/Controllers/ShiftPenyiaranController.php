@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Penyiar;
 use Illuminate\Http\Request;
 use App\Models\ShiftPenyiaran;
+use App\Models\Siaran;
+use Carbon\Carbon;
 use PDF;
 
 class ShiftPenyiaranController extends Controller
@@ -13,21 +16,29 @@ class ShiftPenyiaranController extends Controller
     {
         $search = $request->input('search');
 
-        $shifts = ShiftPenyiaran::when($search, function ($query, $search) {
-            return $query->where('nama_penyiar', 'like', "%{$search}%")
-                         ->orWhere('hari', 'like', "%{$search}%")
-                         ->orWhere('jam_mulai', 'like', "%{$search}%")
-                         ->orWhere('jam_selesai', 'like', "%{$search}%")
-                         ->orWhere('naskah_siaran', 'like', "%{$search}%");
-        })->get();
+        $shifts = ShiftPenyiaran::with('penyiar') // pastikan relasi dimuat
+        ->when($search, function ($query, $search) {
+            $query->whereHas('penyiar', function ($q) use ($search) {
+                $q->where('nama', 'like', "%{$search}%");
+            })->orWhere('hari', 'like', "%{$search}%")
+                ->orWhere('jam_mulai', 'like', "%{$search}%")
+                ->orWhere('jam_selesai', 'like', "%{$search}%")
+                ->orWhere('naskah_siaran', 'like', "%{$search}%");
+        })
+            ->get();
 
-        return view('shifts.shift_penyiaran', compact('shifts'));
+// ambil semua data penyiar (bukan dari ShiftPenyiaran)
+        $penyiars = Penyiar::all();
+        return view('shifts.shift_penyiaran', compact('shifts', 'penyiars'));
     }
 
     // Menampilkan form tambah shift penyiaran
     public function create()
     {
-        return view('shifts.tambah');
+        $penyiars = Penyiar::all();
+        $siaran = Siaran::all();
+//        dd($penyiars);
+        return view('shifts.tambah', compact('penyiars', 'siaran'));
     }
 
     // Menyimpan shift baru ke database
@@ -35,16 +46,16 @@ class ShiftPenyiaranController extends Controller
     {
         // Validasi input
         $request->validate([
-            'nama_penyiar' => 'required|string|max:255',
+            'penyiar_id' => 'required|exists:penyiars,id',
             'hari' => 'required|string|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu',
-            'jam_mulai' => 'required|',
-            'jam_selesai' => 'required|after:jam_mulai',
+            'jam_mulai' => 'required|date_format:H:i',
+            'jam_selesai' => 'required|date_format:H:i|after:jam_mulai',
             'naskah_siaran' => 'required|string|max:5000',
         ]);
 
         // Simpan ke database
         ShiftPenyiaran::create([
-            'nama_penyiar' => $request->nama_penyiar,
+            'penyiar_id' => $request->penyiar_id,
             'hari' => $request->hari,
             'jam_mulai' => $request->jam_mulai,
             'jam_selesai' => $request->jam_selesai,
@@ -60,7 +71,8 @@ class ShiftPenyiaranController extends Controller
     public function edit($id)
     {
         $shift = ShiftPenyiaran::findOrFail($id);
-        return view('shifts.edit', compact('shift'));
+        $penyiars = Penyiar::all();
+        return view('shifts.edit', compact('shift', 'penyiars'));
     }
 
     // Menyimpan perubahan shift
@@ -70,10 +82,10 @@ class ShiftPenyiaranController extends Controller
 
         // Validasi input
         $validated_data = $request->validate([
-            'nama_penyiar' => 'required|string|max:255',
+            'penyiar_id' => 'required|exists:penyiars,id',
             'hari' => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu',
-            'jam_mulai' => 'required|date_format:H:i',
-            'jam_selesai' => 'required|date_format:H:i|after_or_equal:jam_mulai',
+            'jam_mulai' => 'required',
+            'jam_selesai' => 'required|after_or_equal:jam_mulai',
             'naskah_siaran' => 'required|string',
         ]);
 
@@ -124,24 +136,26 @@ class ShiftPenyiaranController extends Controller
     // export pdf
     public function exportPdf(Request $request)
     {
-        // Ambil data dengan filter yang sama seperti di index
-        $shifts = ShiftPenyiaran::query();
-        
+        // Ambil query dasar dan relasi penyiar
+        $shifts = ShiftPenyiaran::with('penyiar');
+
+        // Filter pencarian
         if ($request->has('search') && !empty($request->search)) {
-            $shifts->where(function($query) use ($request) {
-                $query->where('nama_penyiar', 'like', '%'.$request->search.'%')
-                      ->orWhere('hari', 'like', '%'.$request->search.'%')
-                      ->orWhere('naskah_siaran', 'like', '%'.$request->search.'%');
+            $shifts->where(function ($query) use ($request) {
+                $query->whereHas('penyiar', function ($q) use ($request) {
+                    $q->where('nama', 'like', '%' . $request->search . '%');
+                })->orWhere('hari', 'like', '%' . $request->search . '%')
+                    ->orWhere('naskah_siaran', 'like', '%' . $request->search . '%');
             });
         }
-        
+
+        // Filter berdasarkan hari (jika ada)
         if ($request->has('hari') && !empty($request->hari)) {
             $shifts->where('hari', $request->hari);
         }
-        
-        $shifts = $shifts->orderBy('hari')
-                        ->orderBy('jam_mulai')
-                        ->get();
+
+        // Ambil hasil akhir
+        $shifts = $shifts->orderBy('hari')->orderBy('jam_mulai')->get();
 
         $data = [
             'title' => 'Laporan Shift Penyiaran',
@@ -154,6 +168,7 @@ class ShiftPenyiaranController extends Controller
         ];
 
         $pdf = PDF::loadView('shifts.export_pdf', $data);
-        return $pdf->download('shift_penyiaran_'.date('YmdHis').'.pdf');
+        return $pdf->download('shift_penyiaran_' . date('YmdHis') . '.pdf');
     }
+
 }

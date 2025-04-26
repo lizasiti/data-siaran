@@ -78,7 +78,7 @@
                                 <div class="vr mx-3 opacity-25" style="height: 24px"></div>
                                 <div class="live-now">
                                     <span class="small text-muted">Sedang Tayang:</span>
-                                    <span class="ms-2 fw-medium text-primary">{{$langsung->judul}}</span>
+                                    <span class="ms-2 fw-medium text-primary">{{$langsung->judul}}  ( {{ $langsung->jam_mulai }} - {{ $langsung->jam_selesai }} WIB)</span>
                                 </div>
                             @else
                                 <div class="live-now">
@@ -87,7 +87,7 @@
                             @endif
                         </div>
                 </div>
-                
+
                 <div class="col-lg-6 text-end d-none d-lg-block ">
                     <img src="{{asset('img/banner.png')}}" alt="RRI Hero Image" class="img-fluid rounded-3  w-50">
                 </div>
@@ -137,7 +137,7 @@
                         <h3 class="mb-0 fw-bold">Jadwal Siaran</h3>
                         <div class="ms-auto">
                             <div class="input-group">
-                               
+
                             </div>
                         </div>
                     </div>
@@ -174,7 +174,7 @@
                                         </div>
                                         <div class="card-footer bg-white border-top-0 px-4 pb-4">
                                             <div class="d-flex justify-content-between text-muted small">
-                                                
+
                                                 <span class="d-flex align-items-center">
                                                     <i class="fas fa-broadcast-tower me-2 text-warning"></i>
                                                     Pro RRI2
@@ -278,7 +278,7 @@
                 <div class="tab-pane fade" id="weekend" role="tabpanel" aria-labelledby="weekend-tab">
                     <div class="d-flex align-items-center mb-4">
                         <h3 class="mb-0 fw-bold">Jadwal Siaran Akhir Pekan (Sabtu-Minggu)</h3>
-                       
+
                     </div>
 
                     <div class="schedule-timeline">
@@ -289,7 +289,7 @@
                             <div class="d-flex align-items-center mb-3">
                                 <span class="badge bg-primary rounded-pill px-3 py-2 me-2">
                                     <img width="20" height="20" class="me-1" src="{{asset('img/icons8-weekend-64.png')}}" alt=""/>Weekend
-                                    
+
                                 </span>
                                 <div class="border-bottom flex-grow-1 ms-2"></div>
                             </div>
@@ -316,7 +316,7 @@
                                         </div>
                                         <div class="card-footer bg-white border-top-0 px-4 pb-4">
                                             <div class="d-flex justify-content-between text-muted small">
-                                               
+
                                                 <span class="d-flex align-items-center">
                                                     <i class="fas fa-broadcast-tower me-2 text-primary"></i>
                                                     Pro RRI2

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Siaran;
 use Illuminate\Http\Request;
+use App\Models\Penyiar;
 
 class DataSiaran extends Controller
 {
@@ -13,7 +14,8 @@ class DataSiaran extends Controller
     public function index()
     {
         $siaran = Siaran::all();
-        return view('data_siaran', compact('siaran'));
+        $penyiars = Penyiar::all();
+        return view('data_siaran', compact('siaran', 'penyiars'));
     }
 
     /**
@@ -24,14 +26,14 @@ class DataSiaran extends Controller
         $request->validate([
             'daypart' => 'required',
             'tanggal' => 'required|date',
-            'penyiar' => 'required|string|max:255',
+            'penyiar_id' => 'required|exists:penyiars,id',
             'interaksi_pendengar' => 'required|string',
         ]);
 
         Siaran::create([
             'daypart' => $request->daypart,
             'tanggal' => $request->tanggal,
-            'penyiar' => $request->penyiar,
+            'penyiar_id' => $request->penyiar_id,
             'interaksi_pendengar' => $request->interaksi_pendengar,
         ]);
 
@@ -55,7 +57,7 @@ class DataSiaran extends Controller
         $request->validate([
             'daypart' => 'required',
             'tanggal' => 'required|date',
-            'penyiar' => 'required|string|max:255',
+            'penyiar_id' => 'required|exists:penyiars,id',
             'interaksi_pendengar' => 'required|string',
         ]);
 
@@ -63,7 +65,7 @@ class DataSiaran extends Controller
         $siaran->update([
             'daypart' => $request->daypart,
             'tanggal' => $request->tanggal,
-            'penyiar' => $request->penyiar,
+            'penyiar_id' => $request->penyiar_id,
             'interaksi_pendengar' => $request->interaksi_pendengar,
         ]);
 

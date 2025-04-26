@@ -6,7 +6,7 @@
         <h1 class="mt-4">
             <i class="fas fa-broadcast-tower me-2"></i>Shift Penyiaran
         </h1>
-        
+
     </div>
 
     <!-- Search and Filter Section -->
@@ -19,19 +19,19 @@
                             <span class="input-group-text bg-white">
                                 <i class="bx bx-search"></i>
                             </span>
-                            <input type="text" name="search" class="form-control" 
-                                   placeholder="Cari berdasarkan nama penyiar, hari, atau naskah..." 
+                            <input type="text" name="search" class="form-control"
+                                   placeholder="Cari berdasarkan nama penyiar, hari, atau naskah..."
                                    value="{{ request('search') }}">
                         </div>
                     </div>
-                    
+
                     <div class=" me-3">
                         <button type="submit" class="btn btn-primary w-100">
                             <i class="bx bx-filter me-1"></i> Filter
                         </button>
                     </div>
                     <div class="me-3">
-                        <a href="{{ route('shift_penyiaran.export_pdf', request()->query()) }}" 
+                        <a href="{{ route('shift_penyiaran.export_pdf', request()->query()) }}"
                            class="btn btn-secondary">
                            <i class="bx bx-download me-1"></i> Export PDF
                         </a>
@@ -44,7 +44,7 @@
                             <i class="bx bx-plus me-1"></i> Tambah
                         </a>
                     </div>
-    
+
                 </div>
             </form>
         </div>
@@ -81,8 +81,10 @@
                         @endphp
                             <tr>
                                 <td>{{ $no++ }}</td>
-                                <td>
-                                    {{ $shift->nama_penyiar}}
+                                <td >
+                                    <span class="d-flex align-items-center">
+                                        {{ $shift->penyiar->nama }}
+                                    </span>
                                 </td>
                                 <td>
                                     <span class="badge bg-{{ $shift->hari == 'Sabtu' || $shift->hari == 'Minggu' ? 'info' : 'primary' }}">
@@ -96,7 +98,7 @@
                                 </td>
                                 <td>
                                     <div class="d-flex">
-                                        <a href="{{ route('shift_penyiaran.edit', $shift->id) }}" 
+                                        <a href="{{ route('shift_penyiaran.edit', $shift->id) }}"
                                            class="btn btn-sm btn-icon btn-warning me-2"
                                            data-bs-toggle="tooltip" title="Edit">
                                            <i class='bx bx-edit-alt'></i>
@@ -139,16 +141,16 @@
         justify-content: center;
         vertical-align: middle;
     }
-    
+
     .symbol-circle {
         border-radius: 50%;
     }
-    
+
     .symbol-40 {
         width: 40px;
         height: 40px;
     }
-    
+
     .symbol-label {
         display: flex;
         align-items: center;
@@ -160,22 +162,22 @@
         background-position: center center;
         background-size: cover;
     }
-    
+
     .naskah-column {
         max-width: 200px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
-    
+
     .table-hover tbody tr:hover {
         background-color: #f8f9fa;
     }
-    
+
     .card {
         border-radius: 0.5rem;
     }
-    
+
     .badge {
         font-size: 0.85em;
         padding: 0.35em 0.65em;

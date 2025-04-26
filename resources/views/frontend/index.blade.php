@@ -77,7 +77,7 @@
                             <div class="vr mx-3 opacity-25" style="height: 24px"></div>
                             <div class="live-now">
                                 <span class="small text-muted">Sedang Tayang:</span>
-                                <span class="ms-2 fw-medium text-primary">{{$program->judul}}</span>
+                                <span class="ms-2 fw-medium text-primary">{{$program->judul}}  ( {{ $program->jam_mulai }} - {{ $program->jam_selesai }} WIB)</span>
                             </div>
                         @else
                             <div class="live-now">

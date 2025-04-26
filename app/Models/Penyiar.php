@@ -12,4 +12,14 @@ class Penyiar extends Model
     protected $table = 'penyiars'; // Pastikan ini sesuai dengan nama tabel di database
 
     protected $fillable = ['nama', 'foto']; // Tambahkan ini untuk mengizinkan mass assignment
+
+    public function siaran()
+    {
+        return $this->hasMany(Siaran::class);
+    }
+
+    public function shift_penyiaran()
+    {
+        return $this->hasMany(ShiftPenyiaran::class);
+    }
 }

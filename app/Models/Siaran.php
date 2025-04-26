@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Siaran extends Model
 {
-    protected $fillable = ['daypart', 'tanggal', 'penyiar', 'interaksi_pendengar'];
+    protected $fillable = ['daypart', 'tanggal', 'penyiar_id', 'interaksi_pendengar'];
+
+    public function penyiar()
+    {
+        return $this->belongsTo(Penyiar::class);
+    }
 
 }

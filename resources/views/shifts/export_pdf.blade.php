@@ -95,7 +95,7 @@
             @foreach($shifts as $index => $shift)
             <tr>
                 <td>{{ $index + 1 }}</td>
-                <td>{{ $shift->nama_penyiar }}</td>
+                <td>{{ $shift->penyiar->nama ?? '-' }}</td>
                 <td>
                     <span class="badge badge-{{ $shift->hari == 'Sabtu' || $shift->hari == 'Minggu' ? 'info' : 'primary' }}">
                         {{ $shift->hari }}

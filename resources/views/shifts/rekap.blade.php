@@ -46,7 +46,7 @@
             @foreach ($shifts as $index => $shift)
             <tr class="">
                 <td>{{ $index + 1 }}</td>
-                <td>{{ $shift->nama_penyiar }}</td>
+                <td>{{ $shift->penyiar->nama }}</td>
                 <td>{{ $shift->hari }}</td>
                 <td>{{ $shift->jam_mulai }}</td>
                 <td>{{ $shift->jam_selesai }}</td>

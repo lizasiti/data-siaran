@@ -9,20 +9,21 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('siarans', function (Blueprint $table) {
             $table->id();
-            $table->string('judul_siaran');
+            $table->foreignId('penyiar_id')->constrained('penyiars')->onDelete('cascade');
+            $table->string('judul_siaran')->nullable();
             $table->date('tanggal');
-            $table->time('jam');
-            $table->string('durasi');
-            $table->string('penyiar');
-            $table->enum('kategori', ['SPADA', 'SANTAI_SIANG', 'SORE_CERIA', 'JAGA_MALAM']);
+            $table->time('jam')->nullable();
+//            $table->string('durasi');
+//            $table->string('penyiar');
+            $table->enum('daypart', ['SPADA', 'SANTAI_SIANG', 'SORE_CERIA', 'JAGA_MALAM']);
+            $table->text('interaksi_pendengar');
             $table->timestamps();
         });
     }
-    
 
     /**
      * Reverse the migrations.
