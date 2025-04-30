@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\ShiftPenyiaran;
 use App\Models\Siaran;
 use Carbon\Carbon;
-use PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ShiftPenyiaranController extends Controller
 {
