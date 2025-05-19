@@ -9,7 +9,12 @@
 
 
 <div class="table-responsive">
-    
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <table class="table table-bordered table-hover">
         <thead class="table-primary">
             <tr>
@@ -29,14 +34,40 @@
                 <td>{{ $p->nama }}</td>
                 <td>
                     <a href="{{ route('penyiar.edit', $p->id) }}" class="btn btn-warning">Edit</a>
+                    <button type="button" class="btn btn-danger" onclick="confirmDelete('{{ route('penyiar.destroy', $p->id) }}')">
+                        Hapus
+                    </button>
                 </td>
             </tr>
             @endforeach
         </tbody>
     </table>
 </div>
+    <!-- Modal Konfirmasi Hapus -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form id="deleteForm" method="POST">
+                @csrf
+                @method('DELETE')
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                    </div>
+                    <div class="modal-body">
+                        Apakah Anda yakin ingin menghapus penyiar ini?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-danger">Hapus</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 
-<style>
+
+    <style>
     .penyiar-foto {
         width: 200px;
         height: 200px;
@@ -45,5 +76,14 @@
     }
 </style>
 </div>
+<script>
+    function confirmDelete(url) {
+        const form = document.getElementById('deleteForm');
+        form.action = url;
+        const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+        modal.show();
+    }
+</script>
+
 
 @endsection

@@ -51,9 +51,6 @@
                         <a href="/loginn" class="btn btn-outline-primary btn-sm px-3 rounded-pill">
                             <i class="fas fa-sign-in-alt me-1"></i> Masuk
                         </a>
-                        <a href="register" class="btn btn-primary btn-sm px-3 rounded-pill">
-                            <i class="fas fa-user-plus me-1"></i> Daftar
-                        </a>
                     </div>
                 </div>
             </nav>

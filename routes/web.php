@@ -9,6 +9,7 @@ use App\Http\Controllers\PenyiarController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WeeklyController;
+use App\Http\Controllers\ProfilController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -65,7 +66,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/shift_penyiaran/{id}/edit', [ShiftPenyiaranController::class, 'edit'])->name('shift_penyiaran.edit');
     Route::put('/shift_penyiaran/{id}', [ShiftPenyiaranController::class, 'update'])->name('shift_penyiaran.update');
     Route::delete('/shift_penyiaran/{id}', [ShiftPenyiaranController::class, 'destroy'])->name('shift_penyiaran.destroy');
-    
+
     Route::get('/shift_penyiaran/rekap', [ShiftPenyiaranController::class, 'rekapShift'])->name('shift_penyiaran.rekap');
     Route::get('/rekap_shift', [ShiftPenyiaranController::class, 'rekapShift'])->name('shift_penyiaran.rekap');
     Route::get('/shift/tambah', [ShiftPenyiaranController::class, 'create'])->name('shift_penyiaran.create');
@@ -98,13 +99,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/programs', [ProgramController::class, 'index'])->name('programs.index');
     Route::post('/programs', [ProgramController::class, 'store'])->name('programs.store');
 
+//    profile
+    Route::get('/lihat/profile', [ProfilController::class, 'index'])->name('profil.index');
+    Route::put('/lihat/profile{id}', [ProfilController::class, 'update'])->name('profil.update');
+
+
     // profil
     Route::middleware(['auth'])->group(function () {
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-    
+
 });
 
-    
+
 });
 
 require __DIR__.'/auth.php';

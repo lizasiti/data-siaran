@@ -7,7 +7,7 @@
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet"/>
 
     <!-- Styles -->
     <style>
@@ -52,7 +52,7 @@
         .login-container button {
             width: 100%;
             padding: 0.75rem;
-            background-color:rgb(6, 53, 104); /* Blue button */
+            background-color: rgb(6, 53, 104); /* Blue button */
             color: white;
             border: none;
             border-radius: 0.375rem;
@@ -80,42 +80,53 @@
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <h2>Login</h2>
+<div class="login-container">
+    <h2>Login</h2>
 
-        <!-- Form Login -->
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
+    <!-- Form Login -->
+    <form method="POST" action="{{ route('login') }}">
+        @csrf
 
-            <!-- Email Input -->
-            <div>
-                <label for="email" class="sr-only">Email</label>
-                <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus placeholder="Email">
-            </div>
+        <!-- Email Input -->
+        <div>
+            <label for="email" class="sr-only">Email</label>
+            <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus placeholder="Email">
+        </div>
 
-            <!-- Password Input -->
-            <div>
-                <label for="password" class="sr-only">Password</label>
-                <input id="password" type="password" name="password" required placeholder="Password">
-            </div>
+        <!-- Password Input + Toggle -->
+        <div style="position: relative;">
+            <label for="password" class="sr-only">Password</label>
+            <input id="password" type="password" name="password" required placeholder="Password">
+            <span onclick="togglePassword()" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;">
+                👁️
+            </span>
+        </div>
 
-           <!-- Remember Me Checkbox -->
-<div style="display: flex; align-items: center;">
-    <input type="checkbox" name="remember" id="remember">
-    <label for="remember" style="margin-right: 300px; cursor: pointer;">Remember Me</label>
+        <!-- Remember Me Checkbox -->
+        <div style="display: flex; align-items: center; margin-top: 10px;">
+            <input type="checkbox" name="remember" id="remember">
+            <label for="remember" style="margin-right: 300px; cursor: pointer;">Remember Me</label>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit">Log in</button>
+    </form>
+
+    <!-- Forgot Password Link -->
+    <div class="forgot-password">
+        @if (Route::has('password.request'))
+            <a href="{{ route('password.request') }}">Forgot your password?</a>
+        @endif
+    </div>
 </div>
 
-
-            <!-- Submit Button -->
-            <button type="submit">Log in</button>
-        </form>
-
-        <!-- Forgot Password Link -->
-        <div class="forgot-password">
-            @if (Route::has('password.request'))
-                <a href="{{ route('password.request') }}">Forgot your password?</a>
-            @endif
-        </div>
-    </div>
+<!-- JS Toggle Password -->
+<script>
+    function togglePassword() {
+        const passwordInput = document.getElementById('password');
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+    }
+</script>
 </body>
 </html>
